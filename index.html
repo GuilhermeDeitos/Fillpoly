@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FillPoly - CG</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <main>
+            <canvas id="tela" width="625" height="625"></canvas>
+        </main>
+        <aside>
+            <div class="form">
+                <div class="top-div">
+                    <h1>Lista de Poligonos</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Poligono</th>
+                                <th>Aresta</th>
+                                <th>Preenchimento</th>
+                                <th>Remover</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody" class="lista-poligonos">
+                        </tbody>
+                    </table>
+                </div>
+               
+                <button id="btn-limpa" class="btn">Limpar Polígonos</button>
+            </div>
+            <p>Created By - Guilherme Deitos</p>
+        </aside>
+    </div>
+    <script type="text/javascript" src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+</html>
