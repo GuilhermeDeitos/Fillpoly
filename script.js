@@ -211,7 +211,6 @@ let preventClick = false;
 
 // Evento de clique simples no canvas (para adicionar vértices)
 canvas.addEventListener("click", (event) => {
-    // Se o clique simples está bloqueado, não faça nada
     if (preventClick) {
         preventClick = false; // Reseta a flag para o próximo clique
         return;
@@ -258,39 +257,52 @@ canvas.addEventListener("click", (event) => {
 });
 
 // Evento de duplo clique no canvas para mudar a cor do polígono
+// Evento de duplo clique no canvas para mudar a cor do polígono ou removê-lo
 canvas.addEventListener("dblclick", (event) => {
-    // Previne o clique simples de ser processado após o duplo clique
-    clearTimeout(clickTimeout);
-    preventClick = true;
+  // Previne o clique simples de ser processado após o duplo clique
+  clearTimeout(clickTimeout);
+  preventClick = true;
 
-    const poligono = poligonos.find(p => 
-        context.isPointInPath(new Path2D(polygonPath(p.vertices)), event.offsetX, event.offsetY)
-    );
+  const poligono = poligonos.find(p => 
+      context.isPointInPath(new Path2D(polygonPath(p.vertices)), event.offsetX, event.offsetY)
+  );
 
-    if (poligono) {
-        Swal.fire({
-            title: 'Escolha a cor do polígono',
-            input: 'text',
-            inputAttributes: {
-                id: 'colorPicker'
-            },
-            showCancelButton: true,
-            confirmButtonText: 'Alterar cor',
-            cancelButtonText: 'Cancelar',
-            didOpen: () => {
-                // Mudar o tipo de 'text' para 'color' no input após o SweetAlert abrir
-                const colorInput = Swal.getInput();
-                colorInput.type = 'color';
-                colorInput.value = poligono.corPoligono;  // Definir a cor atual do polígono
-            },
-            preConfirm: (color) => {
-                // Atualizar a cor do polígono selecionado
-                poligono.corPoligono = color;
-                redesenharPoligonos(); 
-            }
-        });
-    }
+  if (poligono) {
+      Swal.fire({
+          title: 'Editar polígono',
+          input: 'text',
+          inputAttributes: {
+              id: 'colorPicker'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Alterar cor',
+          cancelButtonText: 'Cancelar',
+          showDenyButton: true,  // Botão extra para remover o polígono
+          denyButtonText: 'Remover polígono',
+          didOpen: () => {
+              // Mudar o tipo de 'text' para 'color' no input após o SweetAlert abrir
+              const colorInput = Swal.getInput();
+              colorInput.type = 'color';
+              colorInput.value = poligono.corPoligono;  // Definir a cor atual do polígono
+          },
+          preConfirm: (color) => {
+              // Atualizar a cor do polígono selecionado
+              poligono.corPoligono = color;
+              redesenharPoligonos(); 
+          },
+          preDeny: () => {
+              // Remover o polígono selecionado da lista de polígonos
+              const index = poligonos.indexOf(poligono);
+              if (index > -1) {
+                  poligonos.splice(index, 1); // Remove o polígono
+                  redesenharPoligonos(); // Redesenha o canvas sem o polígono removido
+                  alteracaoTabelaPoligonos(); // Atualiza a tabela de polígonos
+              }
+          }
+      });
+  }
 });
+
 
 //FUnção que retorna um caminho para um polígono com base em seus vértices
 function polygonPath(vertices) { 
