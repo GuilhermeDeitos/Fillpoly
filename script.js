@@ -315,7 +315,7 @@ btnInfo.addEventListener("click", (e) =>{
     title: 'Informações',
     html: `
       <h3> Como usar: </h3>
-      <li> Para criação de polígonos, clique no canvas para adicionar vértices, o poligono é formado quando o é clicado no vertice inicial (minimo 3 vértices) </li>
+      <li> Para criação de polígonos, clique no canvas para adicionar vértices, o poligono é formado quando se é clicado novamente no vertice inicial (minimo 3 vértices) </li>
       <li> Para alterar a cor de um polígono, clique duas vezes sobre ele ou consulte a sidebar </li>
       <li> Para remover um polígono, clique duas vezes sobre ele ou consulte a sidebar </li>
       <li> Para limpar o canvas, clique no botão "Limpar" </li>

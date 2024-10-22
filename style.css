@@ -6,11 +6,11 @@ html{
     padding: 0;
 }
 
-body,p{
+body, p {
     margin: 0;
 }
 
-.container{
+.container {
     width: 100%;
     margin: 0 auto;
     padding: 0;
@@ -23,7 +23,7 @@ body,p{
     gap: 2rem;
 }
 
-main{
+main {
     width: 60%;
     height: 70%;
     display: flex;
@@ -33,13 +33,12 @@ main{
     gap: 2rem;
 }
 
-
-#tela{
+#tela {
     border: 1px solid #8a8989;
     box-shadow: 0 0 10px #4e4e4e64;
 }
 
-aside{
+aside {
     width: 20%;
     height: 90%;
     display: flex;
@@ -50,12 +49,14 @@ aside{
     border: 1px solid #003775;
     box-shadow: .3rem .2rem .4rem #bdbebe;
 }
-h1{
+
+h1 {
     color: #003775;
     font-size: 2.5rem;
     text-align: center;
 }
-.form{
+
+.form {
     width: 100%;
     height: 100%;
     display: flex;
@@ -63,34 +64,32 @@ h1{
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
- 
 }
 
-.top-form{
+.top-form {
     width: 100%;
     display: flex;
-    
     align-items: center;
     flex-direction: column;
     height: 90%;
 }
 
-table{
+table {
     width: 100%;
-    
 }
 
-table thead tr th{
+table thead tr th {
     background-color: #003775;
     color: #fff;
     padding: .5rem;
 }
 
-table tbody tr td{
+table tbody tr td {
     padding: .5rem;
     text-align: center;
 }
-.btn{
+
+.btn {
     width: 40%;
     padding: .7rem;
     background-color: #003775;
@@ -103,29 +102,31 @@ table tbody tr td{
     border: 1px solid #003775;
 }
 
-.btn:hover{
+.btn:hover {
     background-color: transparent;
     color: #003775;
 }
 
-.btn-rm{
+.btn-rm {
     font-size: 2.5rem;
     width: 4.5rem;
     height: 4.5rem;
-    padding:  0;
+    padding: 0;
 }
-#btn-limpa{
+
+#btn-limpa {
     bottom: 0;
     width: 90%;
 }
-.btn-cor{
+
+.btn-cor {
     width: 3rem;
     height: 3rem;
     padding: 0;
     color: #fff;
     border: none;
     border-radius: 50%;
-    cursor: pointer;    
+    cursor: pointer;
     appearance: none;   
     -webkit-appearance: none; 
     transition: 0.3s;
@@ -133,16 +134,16 @@ table tbody tr td{
 }
 
 .btn-cor[type="color"]::-webkit-color-swatch-wrapper {
-    padding: 0; /* Remove o padding interno */
-    border-radius: 50%; /* Mantém redondo */
-  }
+    padding: 0;
+    border-radius: 50%;
+}
   
-  .btn-cor[type="color"]::-webkit-color-swatch {
-    border-radius: 50%; /* Mantém a cor redonda dentro */
-    border: none; /* Remove qualquer borda do swatch */
-  }
+.btn-cor[type="color"]::-webkit-color-swatch {
+    border-radius: 50%;
+    border: none;
+}
 
-  .btn-info{
+.btn-info {
     background-color: #003775;
     color: #fff;
     border: 1px solid #003775;
@@ -150,16 +151,80 @@ table tbody tr td{
     padding: .5rem;
     cursor: pointer;
     transition: 0.3s ease-in-out;
-  }
+}
 
-    .btn-info:hover{
-        background-color: transparent;
-        color: #003775;
-    }
+.btn-info:hover {
+    background-color: transparent;
+    color: #003775;
+}
 
-  .top-div span{
+.top-div span {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
-  }
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Empilha o quadro e a sidebar */
+        height: auto;
+        gap: 1rem;
+    }
+
+    main {
+        width: 90%;
+        height: 70vh;
+        gap: 1rem;
+    }
+
+    aside {
+        width: 90%;
+    
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    table thead tr th,
+    table tbody tr td {
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        width: 70%;
+        font-size: 1.2rem;
+    }
+
+    .btn-rm {
+        font-size: 2rem;
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+    #tela {
+        width: 400px;
+        height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .btn {
+        width: 80%;
+        font-size: 1.1rem;
+    }
+
+    .btn-rm {
+        font-size: 1.8rem;
+        width: 3rem;
+        height: 3rem;
+    }
+}
