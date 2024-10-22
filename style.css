@@ -1,11 +1,14 @@
-html{
+html {
     font-size: 62.5%;
     font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    /*Scroll suave e bonito*/
+    scroll-behavior: smooth;
+    scrollbar-color: #003775 #fff;
+    scrollbar-width: thin;
 }
-
 body, p {
     margin: 0;
 }
@@ -48,6 +51,21 @@ aside {
     border-radius: 10px;
     border: 1px solid #003775;
     box-shadow: .3rem .2rem .4rem #bdbebe;
+    overflow: hidden; /* Mantém o overflow oculto */
+}
+
+.top-div {
+    width: 100%;
+    overflow-x: hidden; /* Oculta a rolagem horizontal */
+    
+}
+
+.top-div span{
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 }
 
 h1 {
@@ -66,18 +84,14 @@ h1 {
     gap: 1rem;
 }
 
-.top-form {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    height: 90%;
-}
-
 table {
     width: 100%;
 }
 
+table thead{
+    width: 100%;
+    background-color: #003775;
+}
 table thead tr th {
     background-color: #003775;
     color: #fff;
@@ -87,6 +101,11 @@ table thead tr th {
 table tbody tr td {
     padding: .5rem;
     text-align: center;
+    
+}
+
+table tbody{
+    overflow-y: auto; /* Permite rolagem vertical */
 }
 
 .btn {
@@ -115,7 +134,7 @@ table tbody tr td {
 }
 
 #btn-limpa {
-    bottom: 0;
+    margin-top: auto; /* Move o botão para a parte inferior */
     width: 90%;
 }
 
@@ -181,7 +200,6 @@ table tbody tr td {
 
     aside {
         width: 90%;
-    
         gap: 1rem;
         margin-top: 1rem;
     }

@@ -297,6 +297,7 @@ canvas.addEventListener("dblclick", (event) => {
           preConfirm: (color) => {
               poligonoSelecionado.corPoligono = color;
               redesenharPoligonos(); 
+              alteracaoTabelaPoligonos();
           },
           preDeny: () => {
               const index = poligonos.indexOf(poligonoSelecionado);
