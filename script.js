@@ -3,6 +3,7 @@ const canvas = document.querySelector("#tela");
 const context = canvas.getContext("2d");
 const btnLimpar = document.querySelector("#btn-limpa");
 const tabelaPoligonos = document.querySelector(".lista-poligonos");
+const btnInfo = document.querySelector("#btn-info");
 
 // Verifica se o canvas foi carregado corretamente
 if (!context) {
@@ -92,7 +93,7 @@ function alteracaoTabelaPoligonos() {
         </td>
         <td>
           <button class="btn-rm btn" onclick="removePoligonoAtual(${index})">
-            &#128465
+            <i class="bi bi-trash3"></i>
           </button>
         </td>
       `;
@@ -203,11 +204,10 @@ function redesenharPoligonos() {
       fillPoly(poligono); 
       poligono.desenharPoligono(); 
     });
-  }
-  
-// Evento de duplo clique no canvas para mudar a cor do polígono
-let clickTimeout = null;
+}
+
 let preventClick = false;
+let isDrawing = false;
 
 // Evento de clique simples no canvas (para adicionar vértices)
 canvas.addEventListener("click", (event) => {
@@ -216,8 +216,12 @@ canvas.addEventListener("click", (event) => {
         return;
     }
 
+    if (!isDrawing) 
+        isDrawing = true;
+
+
     // Adiciona um pequeno delay para esperar se o clique é um duplo clique
-    clickTimeout = setTimeout(() => {
+    setTimeout(() => {
         const ponto = {
             x: event.offsetX,
             y: event.offsetY,
@@ -237,7 +241,9 @@ canvas.addEventListener("click", (event) => {
             alteracaoTabelaPoligonos();
             fillPoly(poligonoAtual);
             poligonoAtual = new Poligono();
+            isDrawing = false;
         } else {
+          if(isDrawing) {
             // Desenha o ponto clicado
             poligonoAtual.setPonto(ponto);
             poligonoAtual.desenharVertice();
@@ -249,25 +255,29 @@ canvas.addEventListener("click", (event) => {
                 poligonoAtual.desenharAresta(ultimoVertice, ponto);
             }
             poligonoAtual.adicionarVertice(ponto);
+          }
         }
 
-        // Limpa o timeout para evitar conflitos
-        clearTimeout(clickTimeout);
-    }, 200); // Espera 200ms para garantir que não seja um duplo clique
+    }, 250); // garantir que não seja um duplo clique
 });
 
-// Evento de duplo clique no canvas para mudar a cor do polígono
 // Evento de duplo clique no canvas para mudar a cor do polígono ou removê-lo
 canvas.addEventListener("dblclick", (event) => {
-  // Previne o clique simples de ser processado após o duplo clique
-  clearTimeout(clickTimeout);
+  isDrawing = false;
   preventClick = true;
 
-  const poligono = poligonos.find(p => 
-      context.isPointInPath(new Path2D(polygonPath(p.vertices)), event.offsetX, event.offsetY)
-  );
+  let poligonoSelecionado = null;
 
-  if (poligono) {
+  // Itera de cima para baixo
+  for (let i = poligonos.length - 1; i >= 0; i--) {
+    const poligono = poligonos[i];
+    if (context.isPointInPath(new Path2D(polygonPath(poligono.vertices)), event.offsetX, event.offsetY)) {
+      poligonoSelecionado = poligono;
+      break; // Para quando encontrar o primeiro polígono (o mais "superficial")
+    }
+  }
+
+  if (poligonoSelecionado) {
       Swal.fire({
           title: 'Editar polígono',
           input: 'text',
@@ -277,31 +287,43 @@ canvas.addEventListener("dblclick", (event) => {
           showCancelButton: true,
           confirmButtonText: 'Alterar cor',
           cancelButtonText: 'Cancelar',
-          showDenyButton: true,  // Botão extra para remover o polígono
+          showDenyButton: true,  
           denyButtonText: 'Remover polígono',
           didOpen: () => {
-              // Mudar o tipo de 'text' para 'color' no input após o SweetAlert abrir
               const colorInput = Swal.getInput();
               colorInput.type = 'color';
-              colorInput.value = poligono.corPoligono;  // Definir a cor atual do polígono
+              colorInput.value = poligonoSelecionado.corPoligono;  
           },
           preConfirm: (color) => {
-              // Atualizar a cor do polígono selecionado
-              poligono.corPoligono = color;
+              poligonoSelecionado.corPoligono = color;
               redesenharPoligonos(); 
           },
           preDeny: () => {
-              // Remover o polígono selecionado da lista de polígonos
-              const index = poligonos.indexOf(poligono);
+              const index = poligonos.indexOf(poligonoSelecionado);
               if (index > -1) {
-                  poligonos.splice(index, 1); // Remove o polígono
-                  redesenharPoligonos(); // Redesenha o canvas sem o polígono removido
-                  alteracaoTabelaPoligonos(); // Atualiza a tabela de polígonos
+                  poligonos.splice(index, 1);
+                  redesenharPoligonos(); 
+                  alteracaoTabelaPoligonos(); 
               }
           }
       });
   }
 });
+
+btnInfo.addEventListener("click", (e) =>{
+  Swal.fire({
+    title: 'Informações',
+    html: `
+      <h3> Como usar: </h3>
+      <li> Para criação de polígonos, clique no canvas para adicionar vértices, o poligono é formado quando o é clicado no vertice inicial (minimo 3 vértices) </li>
+      <li> Para alterar a cor de um polígono, clique duas vezes sobre ele ou consulte a sidebar </li>
+      <li> Para remover um polígono, clique duas vezes sobre ele ou consulte a sidebar </li>
+      <li> Para limpar o canvas, clique no botão "Limpar" </li>
+
+    `,
+    confirmButtonText: 'Fechar'
+  });
+})
 
 
 //FUnção que retorna um caminho para um polígono com base em seus vértices

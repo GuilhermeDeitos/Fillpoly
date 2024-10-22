@@ -141,3 +141,25 @@ table tbody tr td{
     border-radius: 50%; /* Mantém a cor redonda dentro */
     border: none; /* Remove qualquer borda do swatch */
   }
+
+  .btn-info{
+    background-color: #003775;
+    color: #fff;
+    border: 1px solid #003775;
+    border-radius: .5rem;
+    padding: .5rem;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+
+    .btn-info:hover{
+        background-color: transparent;
+        color: #003775;
+    }
+
+  .top-div span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
